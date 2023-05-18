@@ -10,9 +10,9 @@ const {
     GraphQLString,
     GraphQLSchema,
     GraphQLList,
-    GraphQLNonNull,
     GraphQLInt,
     GraphQLEnumType,
+    GraphQLBoolean
 } = require('graphql');
 
 // User Type
@@ -214,6 +214,7 @@ const Mutation = new GraphQLObjectType({
                 amount: { type: GraphQLInt },
                 rate: { type: GraphQLInt },
                 duration: { type: GraphQLInt },
+                matured: { type: GraphQLBoolean },
                 user: { type: GraphQLID },
             },
             resolve(parent, args) {
@@ -222,6 +223,7 @@ const Mutation = new GraphQLObjectType({
                     amount: args.amount,
                     rate: args.rate,
                     duration: args.duration,
+                    matured: args.matured,
                     user: args.user,
                 });
                 return earn.save();
@@ -259,6 +261,146 @@ const Mutation = new GraphQLObjectType({
                 });
                 return transactionHistory.save();
             },
+        },
+        updateUser: {
+            type: UserType,
+            args: {
+                id: { type: GraphQLID },
+                name: { type: GraphQLString },
+                email: { type: GraphQLString },
+                phone: { type: GraphQLString },
+                password: { type: GraphQLString },
+            },
+            resolve(parent, args) {
+                let salt = bcrypt.genSaltSync(10);
+                let hash = bcrypt.hashSync(args.password, salt);
+                args.password = hash;
+                return User.findByIdAndUpdate(
+                    args.id,
+                    {
+                        name: args.name,
+                        email: args.email,
+                        phone: args.phone,
+                        password: args.password,
+                    },
+                    { new: true }
+                );
+            }
+        },
+        updatePortfolio: {
+            type: PortfolioType,
+            args: {
+                id: { type: GraphQLID },
+                name: { type: GraphQLString },
+                symbol: { type: GraphQLString },
+                amount: { type: GraphQLInt },
+                price: { type: GraphQLInt },
+                user: { type: GraphQLID },
+            },
+            resolve(parent, args) {
+                return Portfolio.findByIdAndUpdate(
+                    args.id,
+                    {
+                        name: args.name,
+                        symbol: args.symbol,
+                        amount: args.amount,
+                        price: args.price,
+                        user: args.user,
+                    },
+                    { new: true }
+                );
+            }
+        },
+        updateEarn: {
+            type: EarnType,
+            args: {
+                id: { type: GraphQLID },
+                name: { type: GraphQLString },
+                amount: { type: GraphQLInt },
+                rate: { type: GraphQLInt },
+                matured: { type: GraphQLBoolean },
+                duration: { type: GraphQLInt },
+                user: { type: GraphQLID },
+            },
+            resolve(parent, args) {
+                return Earn.findByIdAndUpdate(
+                    args.id,
+                    {
+                        name: args.name,
+                        amount: args.amount,
+                        rate: args.rate,
+                        duration: args.duration,
+                        matured: args.matured,
+                        user: args.user,
+                    },
+                    { new: true }
+                );
+            }
+        },
+        updateTransactionHistory: {
+            type: TransactionHistoryType,
+            args: {
+                id: { type: GraphQLID },
+                transactionType: {
+                    type: new GraphQLEnumType({
+                        name: 'TransactionType',
+                        values: {
+                            buy: { value: 'buy' },
+                            sell: { value: 'sell' },
+                            transfer: { value: 'transfer' },
+                            withdraw: { value: 'withdraw' },
+                            deposit: { value: 'deposit' },
+                        },
+                    })
+                },
+                symbol: { type: GraphQLString },
+                amount: { type: GraphQLInt },
+                price: { type: GraphQLInt },
+                user: { type: GraphQLID },
+                transferredTo: { type: GraphQLID },
+            },
+            resolve(parent, args) {
+                return TransactionHistory.findByIdAndUpdate(
+                    args.id,
+                    {
+                        transactionType: args.transactionType,
+                        symbol: args.symbol,
+                        amount: args.amount,
+                        price: args.price,
+                        user: args.user,
+                        transferredTo: args.transferredTo,
+                    },
+                    { new: true }
+                );
+            }
+        },
+        deleteUser: {
+            type: UserType,
+            args: { id: { type: GraphQLID } },
+            resolve(parent, args) {
+                return User.findByIdAndDelete(args.id);
+            }
+        },
+        deletePortfolio: {
+            type: PortfolioType,
+            args: { id: { type: GraphQLID } },
+            resolve(parent, args) {
+                return Portfolio.findByIdAndDelete(args.id);
+            }
+        },
+        deleteEarn: {
+            type: EarnType,
+            args: { id: { type: GraphQLID } },
+            resolve(parent, args) {
+                return Earn.findByIdAndDelete(args.id);
+            }
+        },
+        deleteTransactionHistory: {
+            type: TransactionHistoryType,
+            args: { id: { type: GraphQLID } },
+            resolve(parent, args) {
+                return TransactionHistory.findByIdAndDelete(args.id);
+            }
         },
     },
 });

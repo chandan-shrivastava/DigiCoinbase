@@ -17,6 +17,10 @@ const EarnSchema = new mongoose.Schema({
     duration: {
         type: Number,
     },
+    matured : {
+        type: Boolean,
+        default: false
+    },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'

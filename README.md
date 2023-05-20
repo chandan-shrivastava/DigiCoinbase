@@ -1,10 +1,10 @@
 # DigiCoinbase
 
-![Demo](./img/demo.jpg)
-![Demo](./img/demo1.jpg)
-![Demo](./img/demo2.jpg)
-![Demo](./img/demo3.jpg)
-![Demo](./img/demo4.jpg)
+<img src="./img/demo.jpg" width="200">
+<img src="./img/demo1.jpg" width="200">
+<img src="./img/demo2.jpg" width="200">
+<img src="./img/demo3.jpg" width="200">
+<img src="./img/demo4.jpg" width="200">
 
 ## Requirements:
 

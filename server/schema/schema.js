@@ -343,7 +343,7 @@ const Mutation = new GraphQLObjectType({
                 id: { type: GraphQLID },
                 transactionType: {
                     type: new GraphQLEnumType({
-                        name: 'TransactionType',
+                        name: 'TrasactionType',
                         values: {
                             buy: { value: 'buy' },
                             sell: { value: 'sell' },

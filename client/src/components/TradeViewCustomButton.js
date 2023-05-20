@@ -1,9 +1,9 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {Text, Image, TouchableOpacity} from 'react-native';
-import {COLORS, FONTS, SIZES} from '../constants';
+import { Text, Image, TouchableOpacity } from 'react-native';
+import { COLORS, FONTS, SIZES } from '../constants';
 
-const TradeViewCustomButton = ({label, icon, containerStyle, onPress}) => {
+const TradeViewCustomButton = ({ label, icon, containerStyle, onPress }) => {
   return (
     <TouchableOpacity
       style={{
@@ -27,6 +27,7 @@ const TradeViewCustomButton = ({label, icon, containerStyle, onPress}) => {
       />
       <Text
         style={{
+          color: COLORS.black,
           marginLeft: SIZES.base,
           ...FONTS.h3,
         }}>

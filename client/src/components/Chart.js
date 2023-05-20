@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {View, Text} from 'react-native';
-import {COLORS, FONTS, SIZES} from '../constants';
+import { View, Text } from 'react-native';
+import { COLORS, FONTS, SIZES } from '../constants';
 import {
   ChartDot,
   ChartPath,
@@ -13,20 +13,20 @@ import {
 // import {LineChart} from 'react-native-chart-kit';
 import moment from 'moment';
 
-const Chart = ({containerStyle, chartPrices}) => {
+const Chart = ({ containerStyle, chartPrices }) => {
   // points
 
   let startUnixTimeStamp = moment().subtract(7, 'days').unix();
 
   let data = chartPrices
     ? chartPrices?.map((item, index) => {
-        return {
-          x: startUnixTimeStamp + (index + 1) * 3600,
-          y: item,
-        };
-      })
+      return {
+        x: startUnixTimeStamp + (index + 1) * 3600,
+        y: item,
+      };
+    })
     : [];
-  const points = monotoneCubicInterpolation({data, range: 40});
+  const points = monotoneCubicInterpolation({ data, range: 40 });
 
   const formatUSD = value => {
     'worklet';
@@ -34,11 +34,7 @@ const Chart = ({containerStyle, chartPrices}) => {
     if (value === '') {
       return '';
     }
-
-    return `$${value.toLocaleString('en-US', {
-      maximumFractionDigits: 2,
-      minimumFractionDigits: 2,
-    })}`;
+    return `$${Number(value).toFixed(2)}`;
   };
   const formatDateTime = value => {
     'worklet';
@@ -54,18 +50,18 @@ const Chart = ({containerStyle, chartPrices}) => {
     let minutes = `0${selectedDate.getMinutes()}`.slice(-2);
     let seconds = `0${selectedDate.getSeconds()}`.slice(-2);
 
-    return `${date}/${month}/${year} ${hours}:${minutes}:${seconds}`;
+    return `${date}/${month}/${year} ${hours}:${minutes}`;
   };
 
   const formatNumber = value => {
-    if (value > 1e9) {
-      return `${(value / 1e9).toFixed(2)}B`;
-    } else if (value > 1e6) {
-      return `${(value / 1e6).toFixed(2)}M`;
-    } else if (value > 1e3) {
-      return `${(value / 1e3).toFixed(2)}K`;
+    if (value > 1000000000) {
+      return `${parseFloat(value / 1000000000).toFixed(2)}B`;
+    } else if (value > 1000000) {
+      return `${parseFloat(value / 1000000).toFixed(2)}M`;
+    } else if (value > 1000) {
+      return `${parseFloat(value / 1000).toFixed(2)}K`;
     } else {
-      return `${value.toFixed(2)}`;
+      return `${parseFloat(value).toFixed(2)}`;
     }
   };
 
@@ -107,7 +103,7 @@ const Chart = ({containerStyle, chartPrices}) => {
           return (
             <Text
               key={`YLabel-${index}`}
-              style={{color: COLORS.lightGray3, ...FONTS.body4}}>
+              style={{ color: COLORS.lightGray3, ...FONTS.body4 }}>
               {item}
             </Text>
           );
@@ -115,7 +111,7 @@ const Chart = ({containerStyle, chartPrices}) => {
       </View>
       {/* Chart */}
       {data.length > 0 && (
-        <ChartPathProvider data={{points, smoothingStrategy: 'bezier'}}>
+        <ChartPathProvider data={{ points, smoothingStrategy: 'bezier' }}>
           <ChartPath
             height={220}
             width={SIZES.width}
@@ -127,28 +123,10 @@ const Chart = ({containerStyle, chartPrices}) => {
               style={{
                 position: 'absolute',
                 left: -35,
-                width: 80,
+                width: 200,
                 alignItems: 'center',
                 backgroundColor: COLORS.transparentBlack1,
               }}>
-              <View
-                style={{
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  width: 25,
-                  height: 25,
-                  borderRadius: 15,
-                  backgroundColor: COLORS.white,
-                }}>
-                <View
-                  style={{
-                    width: 10,
-                    height: 10,
-                    borderRadius: 5,
-                    backgroundColor: COLORS.lightGreen,
-                  }}
-                />
-              </View>
 
               {/* Y label */}
               <ChartYLabel

@@ -1,17 +1,17 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {View, Text, Image, FlatList, TouchableOpacity} from 'react-native';
+import { View, Text, Image, FlatList, TouchableOpacity } from 'react-native';
 import Layout from './Layout';
-import {DataAPIContext} from '../context';
-import {useFocusEffect} from '@react-navigation/native';
-import {dummyData, SIZES, COLORS, icons, FONTS} from '../constants';
+import { DataAPIContext } from '../context';
+import { useFocusEffect } from '@react-navigation/native';
+import { dummyData, SIZES, COLORS, icons, FONTS } from '../constants';
 import axios from 'axios';
-import {TradeViewCustomButton, BalanceInfo, Chart} from '../components';
+import { TradeViewCustomButton, BalanceInfo, Chart } from '../components';
 
 const Home = () => {
   const [selectedCoin, setSelectedCoin] = React.useState(null);
   const ids = dummyData.holdings.map(item => item.id).join(',');
-  const {setHoldings, coins, setCoins} = React.useContext(DataAPIContext);
+  const { setHoldings, coins, setCoins } = React.useContext(DataAPIContext);
   const fetchHoldings = React.useCallback(
     (
       currency = 'usd',
@@ -28,6 +28,7 @@ const Home = () => {
         headers: {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*',
+          'Cache-Control': 'max-age=300',
         },
       })
         .then(res => {
@@ -83,6 +84,7 @@ const Home = () => {
         headers: {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': '*',
+          'Cache-Control': 'max-age=300',
         },
       })
         .then(res => {
@@ -122,7 +124,7 @@ const Home = () => {
           displayAmount={parseFloat(totalWallet.toFixed(2))}
           changePct={percChange.toFixed(2)}
           containerStyle={{
-            marginTop: 75,
+            marginTop: 30,
           }}
         />
         {/* buttons */}
@@ -167,6 +169,7 @@ const Home = () => {
         }}>
         <Text
           style={{
+            marginBottom: 10,
             color: COLORS.white,
             ...FONTS.h2,
           }}>
@@ -178,7 +181,7 @@ const Home = () => {
           contentContainerStyle={{
             marginTop: SIZES.radius,
           }}
-          renderItem={({item}) => {
+          renderItem={({ item }) => {
             return (
               <TouchableOpacity
                 style={{
@@ -195,7 +198,7 @@ const Home = () => {
                     width: 35,
                   }}>
                   <Image
-                    source={{uri: item.image}}
+                    source={{ uri: item.image }}
                     style={{
                       width: 20,
                       height: 20,
@@ -305,7 +308,7 @@ const Home = () => {
                 ? selectedCoin?.sparkline_in_7d?.price
                 : coins[0]?.sparkline_in_7d?.price
             }
-            // chartPrices={coins[0]?.sparkline_in_7d?.price}
+          // chartPrices={coins[0]?.sparkline_in_7d?.price}
           />
           <Text
             style={{

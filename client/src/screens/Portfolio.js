@@ -41,7 +41,7 @@ const Portfolio = () => {
             style={{
               color: COLORS.white,
               ...FONTS.largeTitle,
-              marginTop: 60,
+              marginTop: 30,
             }}>
             Portfolio
           </Text>
@@ -87,7 +87,6 @@ const Portfolio = () => {
             }}>
             Your Assets
           </Text>
-          {/* flatlist with Asset(image and name) , price and holdings tab */}
           <View
             style={{
               flex: 1,
@@ -168,9 +167,6 @@ const Portfolio = () => {
                     </Text>
                   </View>
 
-                  {/* price and holdings */}
-
-                  {/* price */}
                   <View
                     style={{
                       flex: 1,

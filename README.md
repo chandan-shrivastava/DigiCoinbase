@@ -1,5 +1,11 @@
 # DigiCoinbase
 
+![Demo](./img/demo.jpg)
+![Demo](./img/demo1.jpg)
+![Demo](./img/demo2.jpg)
+![Demo](./img/demo3.jpg)
+![Demo](./img/demo4.jpg)
+
 ## Requirements:
 
 ```
